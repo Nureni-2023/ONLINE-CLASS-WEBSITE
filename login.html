@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول - علم الفرائض</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: linear-gradient(to left, #fdfcfb, #e2d1c3);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1 {
+      background: #0a3d62;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      font-size: 1.8em;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      color: #0a3d62;
+      cursor: pointer;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px 20px;
+      margin: 50px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #0a3d62;
+      font-size: 1.4em;
+      text-align: center;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    .btn {
+      width: 100%;
+      background: #0a3d62;
+      color: white;
+      padding: 12px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #3c6382;
+    }
+
+    .switch-link {
+      margin-top: 15px;
+      color: #0a3d62;
+      cursor: pointer;
+      font-size: 0.95em;
+      text-decoration: underline;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: auto;
+      background: #0a3d62;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 400px) {
+      .form-container {
+        padding: 20px 15px;
+      }
+
+      .lang-switch button {
+        font-size: 18px;
+      }
+
+      .btn {
+        font-size: 1em;
+      }
+
+      h1 {
+        font-size: 1.5em;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🌐 Language Switch -->
+  <div class="lang-switch">
+    <button onclick="toggleLang()" title="Switch Language">🌐<i class="fas fa-globe"></i></button>
+  </div>
+
+  <!-- 🔷 Header -->
+  <h1 id="pageTitle">تسجيل الدخول</h1>
+
+  <!-- 🔐 Login Form -->
+  <div class="form-container" id="loginForm">
+    <h2 id="formTitle">دخول الطالب</h2>
+    <input type="text" id="username" placeholder="البريد الإلكتروني / اسم المستخدم">
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <button class="btn" onclick="login()">دخول</button>
+    <div class="switch-link" onclick="toggleUserType()" id="toggleLink">تسجيل دخول المشرف</div>
+  </div>
+
+  <!-- 🔻 Footer -->
+  <footer id="footerText">
+    &copy; 2025 بوابة علم الفرائض
+  </footer>
+
+  <!-- 🔁 JS Script -->
+  <script>
+    let isArabic = true;
+    let isAdmin = false;
+
+    function toggleLang() {
+      isArabic = !isArabic;
+      document.documentElement.lang = isArabic ? 'ar' : 'en';
+      document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+
+      document.getElementById('pageTitle').textContent = isArabic ? "تسجيل الدخول" : "Login";
+      document.getElementById('formTitle').textContent = isAdmin
+        ? (isArabic ? "دخول المشرف" : "Admin Login")
+        : (isArabic ? "دخول الطالب" : "Student Login");
+      document.getElementById('username').placeholder = isArabic ? "البريد الإلكتروني / اسم المستخدم" : "Email / Username";
+      document.getElementById('password').placeholder = isArabic ? "كلمة المرور" : "Password";
+      document.querySelector('.btn').textContent = isArabic ? "دخول" : "Login";
+      document.getElementById('toggleLink').textContent = isAdmin
+        ? (isArabic ? "تسجيل دخول الطالب" : "Student Login")
+        : (isArabic ? "تسجيل دخول المشرف" : "Admin Login");
+      document.getElementById('footerText').innerHTML = isArabic
+        ? "&copy; 2025 بوابة علم الفرائض"
+        : "&copy; 2025 Ilm al-Fara'id Portal";
+    }
+
+    function toggleUserType() {
+      isAdmin = !isAdmin;
+      toggleLang(); // Update all language elements with correct user type
+    }
+
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (!user || !pass) {
+        alert(isArabic ? "يرجى ملء جميع الحقول" : "Please fill in all fields.");
+        return;
+      }
+      // Placeholder logic for redirect
+      if (isAdmin) {
+        window.location.href = "admin.html";
+      } else {
+        window.location.href = "student.html";
+      }
+    }
+  </script>
+
+</body>
+</html>

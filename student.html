@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بوابة الطالب - علم الفرائض</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f2f2f2;
+      color: #333;
+      padding-bottom: 50px;
+    }
+
+    header {
+      background: #0a3d62;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    section {
+      margin: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    h3 {
+      margin-top: 0;
+      color: #0a3d62;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #0a3d62;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #0a3d62;
+      color: white;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      iframe {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔵 Header -->
+  <header>
+    <div class="lang-switch">
+      <button onclick="toggleLang()" title="Switch Language"><i class="fas fa-globe"></i></button>
+    </div>
+    <h1 id="studentHeader">بوابة الطالب</h1>
+    <p id="studentSubheader">مرحبا بك في منصة تعليم علم الفرائض</p>
+  </header>
+
+  <!-- 📢 Broadcast Message -->
+  <section>
+    <h3 id="broadcastHeader">📢 رسالة من الإدارة</h3>
+    <p id="broadcastText">...</p>
+  </section>
+
+  <!-- 💌 Private Message -->
+  <section>
+    <h3 id="privateHeader">💌 رسالتك الخاصة</h3>
+    <p id="privateText">...</p>
+  </section>
+
+  <!-- 🎥 Video Lessons -->
+  <section id="videoLibrarySection">
+    <h3 id="videoLibraryTitle">🎥 دروس الفيديو</h3>
+    <div id="videoLibraryContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
+  </section>
+
+  <!-- 📨 Message to Admin -->
+  <section>
+    <h3 id="studentMsgTitle">📨 أرسل رسالة إلى المشرف</h3>
+    <form onsubmit="sendMessageToAdmin(event)">
+      <textarea id="studentMsg" placeholder="اكتب رسالتك..." rows="4"></textarea>
+      <button type="submit">📩 إرسال</button>
+    </form>
+  </section>
+
+  <!-- 🔻 Footer -->
+  <footer id="footerText">
+    &copy; 2025 بوابة علم الفرائض
+  </footer>
+
+  <!-- ✅ Script -->
+  <script>
+    let isArabic = true;
+
+    function toggleLang() {
+      isArabic = !isArabic;
+      document.documentElement.lang = isArabic ? 'ar' : 'en';
+      document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+
+      document.getElementById("studentHeader").textContent = isArabic ? "بوابة الطالب" : "Student Portal";
+      document.getElementById("studentSubheader").textContent = isArabic ? "مرحبا بك في منصة تعليم علم الفرائض" : "Welcome to Ilm al-Fara'id Learning Platform";
+
+      document.getElementById("broadcastHeader").textContent = isArabic ? "📢 رسالة من الإدارة" : "📢 Message from Admin";
+      document.getElementById("privateHeader").textContent = isArabic ? "💌 رسالتك الخاصة" : "💌 Your Private Message";
+      document.getElementById("videoLibraryTitle").textContent = isArabic ? "🎥 دروس الفيديو" : "🎥 Video Lessons";
+      document.getElementById("studentMsgTitle").textContent = isArabic ? "📨 أرسل رسالة إلى المشرف" : "📨 Send Message to Admin";
+      document.getElementById("studentMsg").placeholder = isArabic ? "اكتب رسالتك..." : "Write your message...";
+      document.querySelector("form button").textContent = isArabic ? "📩 إرسال" : "📩 Send";
+      document.getElementById("footerText").innerHTML = isArabic ? "&copy; 2025 بوابة علم الفرائض" : "&copy; 2025 Ilm al-Fara'id Portal";
+
+      renderStudentVideos();
+      loadMessages();
+    }
+
+    function loadMessages() {
+      const email = localStorage.getItem("loggedInStudentEmail") || "student@example.com";
+
+      const broadcast = localStorage.getItem("broadcastMessage");
+      document.getElementById("broadcastText").textContent = broadcast || (isArabic ? "لا توجد رسالة حالياً." : "No message currently.");
+
+      const privateMsg = localStorage.getItem(`msg_${email}`);
+      document.getElementById("privateText").textContent = privateMsg || (isArabic ? "لا توجد رسالة خاصة." : "No private message.");
+    }
+
+    function renderStudentVideos() {
+      const container = document.getElementById("videoLibraryContainer");
+      container.innerHTML = "";
+
+      const videos = JSON.parse(localStorage.getItem("videoLibrary") || "[]");
+
+      if (videos.length === 0) {
+        container.innerHTML = `<p>${isArabic ? "لا توجد فيديوهات حالياً." : "No videos available yet."}</p>`;
+        return;
+      }
+
+      videos.forEach(vid => {
+        const box = document.createElement("div");
+        box.style.border = "1px solid #ccc";
+        box.style.padding = "10px";
+        box.style.borderRadius = "8px";
+        box.style.background = "#fff";
+        box.innerHTML = `
+          <h4>${vid.title}</h4>
+          <iframe src="${vid.embed}" allowfullscreen></iframe>
+          <p><a href="${vid.download}" target="_blank">📥 ${isArabic ? "تحميل" : "Download"}</a></p>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function sendMessageToAdmin(event) {
+      event.preventDefault();
+      const msg = document.getElementById("studentMsg").value.trim();
+      const email = localStorage.getItem("loggedInStudentEmail") || "student@example.com";
+
+      if (!msg) {
+        alert(isArabic ? "يرجى كتابة الرسالة." : "Please write your message.");
+        return;
+      }
+
+      localStorage.setItem(`from_${email}`, msg);
+      document.getElementById("studentMsg").value = "";
+      alert(isArabic ? "تم إرسال رسالتك إلى المشرف." : "Your message has been sent to the admin.");
+    }
+
+    // Auto-load on page ready
+    window.onload = () => {
+      loadMessages();
+      renderStudentVideos();
+    }
+  </script>
+</body>
+</html>

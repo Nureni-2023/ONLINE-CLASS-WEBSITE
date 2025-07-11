@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>بوابة تعليم علم الفرائض</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts for Arabic & English -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- ✅ Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-Sxv6iPNSMHvZboBDFpjE3NQUeQTDZlQ5uLj+0TnOJw8vNITtCrGn5E+NiLbGpRMwhIPN+cKCEeQG23zO+Mw4aA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: linear-gradient(to left, #fdfcfb, #e2d1c3);
+      color: #333;
+      text-align: center;
+    }
+
+    header {
+      background: #0a3d62;
+      color: white;
+      padding: 20px;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      color: #0a3d62;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .lang-switch button:hover {
+      transform: scale(1.2);
+    }
+
+    .container {
+      padding: 40px 20px;
+    }
+
+    .intro {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background: #0a3d62;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+      margin: 10px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #3c6382;
+    }
+
+    footer {
+      background: #0a3d62;
+      color: white;
+      padding: 10px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🌐 Language Toggle Icon -->
+  <div class="lang-switch">
+    <button id="toggleLangBtn" onclick="toggleLang()" title="Switch Language">
+     🌐<i class="fas fa-globe"></i>
+    </button>
+  </div>
+
+  <!-- 🔷 Header -->
+  <header>
+    <h1 id="title">بوابة تعليم علم الفرائض</h1>
+    <p id="subtitle">منصة إلكترونية لتعليم علم المواريث</p>
+  </header>
+
+  <!-- 🔶 Main Content -->
+  <div class="container">
+    <p class="intro" id="intro">مرحباً بك في منصة علم الفرائض. يمكنك تسجيل الدخول للبدء.</p>
+    <a href="login.html"><button class="btn" id="loginBtn">تسجيل الدخول</button></a>
+  </div>
+
+  <!-- 🔻 Footer -->
+  <footer id="footer">
+    &copy; 2025 بوابة علم الفرائض
+  </footer>
+
+  <!-- 🔁 Toggle Language Script -->
+  <script>
+    let isArabic = true;
+
+    function toggleLang() {
+      isArabic = !isArabic;
+      document.documentElement.lang = isArabic ? 'ar' : 'en';
+      document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+
+      // Update text content
+      document.getElementById("title").textContent = isArabic ? "بوابة تعليم علم الفرائض" : "Ilm al-Fara'id Online Portal";
+      document.getElementById("subtitle").textContent = isArabic ? "منصة إلكترونية لتعليم علم المواريث" : "A digital platform to learn Islamic Inheritance";
+      document.getElementById("intro").textContent = isArabic ? "مرحباً بك في منصة علم الفرائض. يمكنك تسجيل الدخول للبدء." : "Welcome to Ilm al-Fara'id platform. Please login to begin.";
+      document.getElementById("loginBtn").textContent = isArabic ? "تسجيل الدخول" : "Login";
+      document.getElementById("footer").innerHTML = isArabic ? "&copy; 2025 بوابة علم الفرائض" : "&copy; 2025 Ilm al-Fara'id Portal";
+    }
+  </script>
+</body>
+</html>

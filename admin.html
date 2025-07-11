@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة المشرف - علم الفرائض</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f2f3f4;
+      color: #333;
+    }
+
+    header {
+      background: #0a3d62;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #0a3d62;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      width: 100%;
+    }
+
+    button {
+      background: #0a3d62;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background: #3c6382;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow-x: auto;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #0a3d62;
+      color: white;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    td button {
+      margin: 0 5px;
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+
+    @media (max-width: 768px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      button {
+        grid-column: span 1;
+      }
+      th, td {
+        font-size: 8px;
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #0a3d62;
+      color: white;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🌐 Language Toggle -->
+  <header>
+    <div class="lang-switch">
+      <button onclick="toggleLang()" title="Switch Language"><i class="fas fa-globe"></i></button>
+    </div>
+    <h1 id="adminTitle">لوحة تحكم المشرف</h1>
+    <p id="adminSubtitle">إدارة الطلاب - علم الفرائض</p>
+  </header>
+
+  <!-- 🧑‍🎓 Admin Panel -->
+  <div class="container">
+    <h2 id="regTitle">تسجيل طالب جديد</h2>
+    <form id="studentForm">
+      <input type="text" id="name" placeholder="الاسم الكامل">
+      <input type="email" id="email" placeholder="البريد الإلكتروني">
+      <input type="password" id="password" placeholder="كلمة المرور">
+      <select id="level">
+        <option value="">-- اختر المرحلة --</option>
+        <option value="مبتدئ">مبتدئ</option>
+        <option value="متوسط">متوسط</option>
+        <option value="متقدم">متقدم</option>
+      </select>
+      <button type="button" onclick="registerStudent()">إضافة الطالب</button>
+    </form>
+
+    <h2 id="studentListTitle">قائمة الطلاب</h2>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th id="thName">الاسم</th>
+            <th id="thEmail">البريد الإلكتروني</th>
+            <th id="thPassword">كلمة المرور</th>
+            <th id="thLevel">المرحلة</th>
+            <th id="thActions">الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable">
+          <!-- Table rows will appear here -->
+        </tbody>
+      </table>
+    </div>
+    
+    
+    <!-- 🎥 Upload YouTube Video Section -->
+<!-- 🎥 Upload Multiple YouTube Videos -->
+<h2 id="videoSectionTitle">رفع فيديو جديد</h2>
+<form id="videoForm" onsubmit="addVideo(event)" style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <input type="text" id="videoUrl" placeholder="رابط YouTube">
+  <input type="text" id="videoTitle" placeholder="عنوان الدرس">
+  <button type="submit">➕ إضافة</button>
+</form>
+
+<!-- 📋 List of Uploaded Videos -->
+<h3 id="videoListTitle">📼 قائمة الدروس</h3>
+<div id="videoList" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;"></div>
+
+
+<div id="videoPreview" style="margin-top: 20px;">
+  <iframe id="videoFrame" style="width:100%; height:300px; border-radius:10px; border:none;" allowfullscreen></iframe>
+  
+  <div style="text-align: center; margin-top: 10px;">
+  <a id="downloadLink" href="#" target="_blank" download>📥 تحميل الفيديو</a><br><br>
+  
+  <button type="button" onclick="deleteVideo()" style="background: crimson;">🗑️ حذف الفيديو</button>
+</div>
+
+</div>
+
+    
+    <!-- 💬 Broadcast Message -->
+<h2 id="broadcastTitle">إرسال رسالة لجميع الطلاب</h2>
+<form onsubmit="sendBroadcast(event)" style="display: flex; flex-direction: column; gap: 10px;">
+  <textarea id="broadcastMessage" placeholder="اكتب الرسالة هنا..." rows="4" style="padding:10px; border-radius:8px;"></textarea>
+  <button type="submit">📤 إرسال الرسالة</button>
+</form>
+
+<!-- 💌 Private Message -->
+<h2 id="privateTitle">رسالة لطالب محدد</h2>
+<form onsubmit="sendPrivate(event)" style="display: flex; flex-direction: column; gap: 10px;">
+  <select id="studentSelect" style="padding:10px; border-radius:8px;"></select>
+  <textarea id="privateMessage" placeholder="اكتب الرسالة الخاصة..." rows="3" style="padding:10px; border-radius:8px;"></textarea>
+  <button type="submit">📩 إرسال الرسالة</button>
+</form>
+
+    
+  <!-- 📥 Messages from Students -->
+<h2 id="inboxTitle">📥 رسائل الطلاب</h2>
+<div id="inbox" style="padding: 15px; border: 1px solid #ccc; border-radius: 10px; background: #fcfcfc;">
+  <p id="noInbox">لا توجد رسائل حالياً.</p>
+</div>
+  
+    
+    
+    
+  </div>
+
+  <!-- 🔻 Footer -->
+  <footer id="adminFooter">
+    &copy; 2025 بوابة علم الفرائض
+  </footer>
+
+  <!-- ✅ JavaScript -->
+  <script>
+    let isArabic = true;
+
+    function toggleLang() {
+      isArabic = !isArabic;
+      document.documentElement.lang = isArabic ? 'ar' : 'en';
+      document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+
+      document.getElementById("adminTitle").textContent = isArabic ? "لوحة تحكم المشرف" : "Admin Dashboard";
+      document.getElementById("adminSubtitle").textContent = isArabic ? "إدارة الطلاب - علم الفرائض" : "Student Management - Ilm al-Fara'id";
+      document.getElementById("regTitle").textContent = isArabic ? "تسجيل طالب جديد" : "Register New Student";
+      document.getElementById("name").placeholder = isArabic ? "الاسم الكامل" : "Full Name";
+      document.getElementById("email").placeholder = isArabic ? "البريد الإلكتروني" : "Email";
+      document.getElementById("password").placeholder = isArabic ? "كلمة المرور" : "Password";
+      document.getElementById("level").innerHTML = isArabic
+        ? '<option value="">-- اختر المرحلة --</option><option value="مبتدئ">مبتدئ</option><option value="متوسط">متوسط</option><option value="متقدم">متقدم</option>'
+        : '<option value="">-- Select Level --</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option>';
+      document.querySelector("form button").textContent = isArabic ? "إضافة الطالب" : "Add Student";
+      document.getElementById("studentListTitle").textContent = isArabic ? "قائمة الطلاب" : "Student List";
+      document.getElementById("thName").textContent = isArabic ? "الاسم" : "Name";
+      document.getElementById("thEmail").textContent = isArabic ? "البريد الإلكتروني" : "Email";
+      document.getElementById("thPassword").textContent = isArabic ? "كلمة المرور" : "Password";
+      document.getElementById("thLevel").textContent = isArabic ? "المرحلة" : "Level";
+      document.getElementById("thActions").textContent = isArabic ? "الإجراءات" : "Actions";
+      document.getElementById("adminFooter").innerHTML = isArabic ? "&copy; 2025 بوابة علم الفرائض" : "&copy; 2025 Ilm al-Fara'id Portal";
+    }
+
+    function registerStudent() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const level = document.getElementById("level").value;
+
+      if (!name || !email || !password || !level) {
+        alert(isArabic ? "يرجى ملء جميع الحقول." : "Please fill in all fields.");
+        return;
+      }
+
+      const table = document.getElementById("studentTable");
+      const row = table.insertRow();
+      row.innerHTML = `
+        <td>${name}</td>
+        <td>${email}</td>
+        <td>${password}</td>
+        <td>${level}</td>
+        <td>
+          <button onclick="editRow(this)">✏️</button>
+          <button onclick="deleteRow(this)">🗑️</button>
+        </td>
+      `;
+
+      document.getElementById("studentForm").reset();
+    }
+
+    function deleteRow(button) {
+      const row = button.closest("tr");
+      row.remove();
+    }
+
+    function editRow(button) {
+      const row = button.closest("tr");
+      const cells = row.querySelectorAll("td");
+
+      const name = prompt(isArabic ? "تعديل الاسم:" : "Edit name:", cells[0].textContent);
+      const email = prompt(isArabic ? "تعديل البريد الإلكتروني:" : "Edit email:", cells[1].textContent);
+      const password = prompt(isArabic ? "تعديل كلمة المرور:" : "Edit password:", cells[2].textContent);
+      const level = prompt(isArabic ? "تعديل المرحلة:" : "Edit level:", cells[3].textContent);
+
+      if (name && email && password && level) {
+        cells[0].textContent = name;
+        cells[1].textContent = email;
+        cells[2].textContent = password;
+        cells[3].textContent = level;
+      }
+    }
+    
+    
+    
+    
+    //Upload Link For Video 
+   function addVideo(e) {
+  e.preventDefault();
+  const url = document.getElementById("videoUrl").value.trim();
+  const title = document.getElementById("videoTitle").value.trim();
+  if (!url || !title) {
+    alert(isArabic ? "يرجى إدخال العنوان والرابط." : "Please enter both title and URL.");
+    return;
+  }
+
+  let videoID = "";
+  try {
+    const parsed = new URL(url);
+    videoID = parsed.searchParams.get("v") || parsed.pathname.split("/").pop();
+  } catch {
+    alert(isArabic ? "الرابط غير صالح." : "Invalid video link.");
+    return;
+  }
+
+  const embed = `https://www.youtube.com/embed/${videoID}`;
+  const download = `https://www.y2mate.com/youtube/${videoID}`;
+
+  const videos = JSON.parse(localStorage.getItem("videoLibrary") || "[]");
+  videos.push({ title, embed, download });
+  localStorage.setItem("videoLibrary", JSON.stringify(videos));
+
+  document.getElementById("videoForm").reset();
+  renderVideoList();
+}
+
+function renderVideoList() {
+  const container = document.getElementById("videoList");
+  container.innerHTML = "";
+
+  const videos = JSON.parse(localStorage.getItem("videoLibrary") || "[]");
+
+  if (videos.length === 0) {
+    container.innerHTML = `<p>${isArabic ? "لا توجد فيديوهات حالياً." : "No videos uploaded yet."}</p>`;
+    return;
+  }
+
+  videos.forEach((vid, index) => {
+    const block = document.createElement("div");
+    block.style.border = "1px solid #ccc";
+    block.style.padding = "10px";
+    block.style.borderRadius = "8px";
+    block.style.background = "#fdfdfd";
+    block.innerHTML = `
+      <h4>${vid.title}</h4>
+      <iframe src="${vid.embed}" style="width:100%; height:250px;" allowfullscreen></iframe>
+      <p style="margin: 10px 0;">
+        <a href="${vid.download}" target="_blank">📥 ${isArabic ? "تحميل" : "Download"}</a>
+        <button onclick="deleteVideo(${index})" style="float:${isArabic ? 'left' : 'right'}; background:red; color:white; padding:5px 10px; border:none; border-radius:6px;">🗑️ ${isArabic ? "حذف" : "Delete"}</button>
+      </p>
+    `;
+    container.appendChild(block);
+  });
+}
+
+function deleteVideo(index) {
+  const confirmMsg = isArabic ? "هل تريد حذف هذا الفيديو؟" : "Delete this video?";
+  if (!confirm(confirmMsg)) return;
+
+  const videos = JSON.parse(localStorage.getItem("videoLibrary") || "[]");
+  videos.splice(index, 1);
+  localStorage.setItem("videoLibrary", JSON.stringify(videos));
+  renderVideoList();
+}
+renderVideoList();
+
+document.getElementById("videoSectionTitle").textContent = isArabic ? "رفع فيديو جديد" : "Upload New Video";
+document.getElementById("videoTitle").placeholder = isArabic ? "عنوان الدرس" : "Lesson Title";
+document.getElementById("videoUrl").placeholder = isArabic ? "رابط YouTube" : "YouTube URL";
+document.getElementById("videoListTitle").textContent = isArabic ? "📼 قائمة الدروس" : "📼 Lesson Video List";
+renderVideoList(); // refresh after language switch
+
+
+
+    
+    
+    //Delete videos 
+    function deleteVideo() {
+  if (!confirm(isArabic ? "هل أنت متأكد من حذف الفيديو؟" : "Are you sure you want to delete the video?")) {
+    return;
+  }
+
+  // Clear iframe and link
+  document.getElementById("videoFrame").src = "";
+  document.getElementById("downloadLink").href = "#";
+  document.getElementById("downloadLink").textContent = isArabic ? "تم حذف الفيديو" : "Video deleted";
+
+  // Remove from localStorage
+  localStorage.removeItem("lessonTitle");
+  localStorage.removeItem("lessonLink");
+  localStorage.removeItem("downloadLink");
+
+  alert(isArabic ? "تم حذف الفيديو بنجاح." : "Video deleted successfully.");
+}
+
+    document.querySelector('button[onclick="deleteVideo()"]').textContent = isArabic ? "🗑️ حذف الفيديو" : "🗑️ Delete Video";
+    
+    
+    
+    
+    //------------Message ----------
+    
+    function sendBroadcast(e) {
+  e.preventDefault();
+  const message = document.getElementById("broadcastMessage").value.trim();
+  if (!message) {
+    alert(isArabic ? "يرجى كتابة الرسالة." : "Please write a message.");
+    return;
+  }
+  localStorage.setItem("broadcastMessage", message);
+  document.getElementById("broadcastMessage").value = "";
+  alert(isArabic ? "تم إرسال الرسالة للجميع." : "Message sent to all students.");
+}
+
+function sendPrivate(e) {
+  e.preventDefault();
+  const email = document.getElementById("studentSelect").value;
+  const msg = document.getElementById("privateMessage").value.trim();
+  if (!email || !msg) {
+    alert(isArabic ? "يرجى تحديد الطالب وكتابة الرسالة." : "Please select a student and enter a message.");
+    return;
+  }
+  localStorage.setItem(`msg_${email}`, msg);
+  document.getElementById("privateMessage").value = "";
+  alert(isArabic ? "تم إرسال الرسالة." : "Private message sent.");
+}
+
+// Update student dropdown when a new student is added
+function updateStudentDropdown(email) {
+  const select = document.getElementById("studentSelect");
+  const option = document.createElement("option");
+  option.value = email;
+  option.textContent = email;
+  select.appendChild(option);
+}
+
+updateStudentDropdown(email);
+
+
+// Initialize dropdown with table data
+window.onload = () => {
+  document.querySelectorAll("#studentTable tr td:nth-child(2)").forEach(td => {
+    updateStudentDropdown(td.textContent);
+  });
+
+  const savedLink = localStorage.getItem("lessonLink");
+  if (savedLink) {
+    document.getElementById("videoFrame").src = savedLink;
+    document.getElementById("downloadLink").href = localStorage.getItem("downloadLink");
+    document.getElementById("downloadLink").textContent = isArabic
+      ? `📥 تحميل: ${localStorage.getItem("lessonTitle")}`
+      : `📥 Download: ${localStorage.getItem("lessonTitle")}`;
+  }
+};
+
+
+document.getElementById("broadcastTitle").textContent = isArabic ? "إرسال رسالة لجميع الطلاب" : "Send Message to All Students";
+document.getElementById("broadcastMessage").placeholder = isArabic ? "اكتب الرسالة هنا..." : "Write the message here...";
+document.querySelector('form button[type="submit"]').textContent = isArabic ? "📤 إرسال الرسالة" : "📤 Send Message";
+
+document.getElementById("privateTitle").textContent = isArabic ? "رسالة لطالب محدد" : "Private Message to Student";
+document.getElementById("privateMessage").placeholder = isArabic ? "اكتب الرسالة الخاصة..." : "Enter private message...";
+document.querySelectorAll('form button[type="submit"]')[1].textContent = isArabic ? "📩 إرسال الرسالة" : "📩 Send Message";
+
+
+function loadInbox() {
+  const inboxDiv = document.getElementById("inbox");
+  inboxDiv.innerHTML = "";
+  let found = false;
+
+  for (let key in localStorage) {
+    if (key.startsWith("from_")) {
+      const email = key.split("_")[1];
+      const msg = localStorage.getItem(key);
+      const box = document.createElement("div");
+      box.style.marginBottom = "15px";
+      box.style.borderBottom = "1px solid #eee";
+      box.innerHTML = `<strong>${email}:</strong><br><p>${msg}</p>`;
+      inboxDiv.appendChild(box);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    inboxDiv.innerHTML = `<p id="noInbox">${isArabic ? "لا توجد رسائل حالياً." : "No messages yet."}</p>`;
+  }
+}
+
+
+window.onload = () => {
+  // Existing logic...
+
+  loadInbox();  // 👈 This loads all inbox messages from students
+};
+
+
+
+    
+  </script>
+</body>
+</html>
